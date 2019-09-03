@@ -21,9 +21,9 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import { recipe } from '../recipe.png';
+import {recipe} from '../recipe.png';
 
-class Dashboard extends React.Component {
+class AllPhotos extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -41,9 +41,9 @@ class Dashboard extends React.Component {
             </div>
         );
         const useStyles = makeStyles(theme => ({
-            // media: {
-            //     height: '80%',
-            // },
+            media: {
+                height: 0,
+            },
             expand: {
                 transform: 'rotate(0deg)',
                 marginLeft: 'auto',
@@ -67,34 +67,40 @@ class Dashboard extends React.Component {
                         logout={this.props.logout}
                     ></Menu>
                     <div className="content-dashboard">
-                        <Card style={{ height: '40vh', width: '40vh'}}>
+                        {/* <Card style={{height:'40vh', width:'40vh'}}>
                             <CardHeader
-                                style={{ fontSize: 'small',}}
+                                style={{fontSize:'1%'}}
                                 title="by User1233"
                                 subheader="September 14, 2016"
                             />
                             <CardMedia
-                                style={{height:'25vh'}}
+                                className={useStyles.media}
                                 image={require('../recipe.png')}
                             />
+                            <CardContent>
+                            </CardContent>
                             <CardActions disableSpacing>
                                 <IconButton aria-label="add to favorites">
                                     <FavoriteIcon />
                                 </IconButton>
                                 <IconButton
-                                    onClick={() => this.handleExpandClick()}
+                                    onClick={this.handleExpandClick}
                                     aria-expanded={this.state.expanded}
+                                    aria-label="show more"
                                 >
                                     See tags
                                 </IconButton>
                             </CardActions>
                             <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
-                                <CardContent style={{display:'flex'}}>
-                                    <p>#recipe</p>
+                                <CardContent>
+                                    <p>#recipe</p> 
                                     <p>#cooking</p>
                                 </CardContent>
                             </Collapse>
-                        </Card>
+                        </Card> */}
+                        <div>
+                            Dashboard
+                        </div>
                     </div>
                 </div>
             </div>
@@ -102,4 +108,4 @@ class Dashboard extends React.Component {
     }
 }
 
-export default Dashboard;
+export default AllPhotos;
