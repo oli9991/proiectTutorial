@@ -1,5 +1,5 @@
 import React from 'react';
-import '../Sources_CSS/Dashboard.css';
+import '../Sources_CSS/AllPhotos.css';
 import {
     InputBase,
     TextField
@@ -21,25 +21,37 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import {recipe} from '../recipe.png';
 
 class AllPhotos extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            expanded: false
+            expanded: false,
+            cards: [
+                { author: 'Jamie J', date: 'Feb 18, 2019', image: 'juice.png', tags: ['healthy', 'vegan', 'veggies'], heartit: false },
+                { author: 'Emmly', date: 'Jan 11, 2017', image: 'recipe.png', tags: ['sweet', 'oven', 'bakedgoods'], heartit: false },
+                { author: 'Emmly', date: 'Jan 11, 2018', image: 'recipe.jpg', tags: ['diy', 'cooking'], heartit: false },
+                { author: 'Emmaly', date: 'Jan 12, 2018', image: 'limo.jpeg', tags: ['diy', 'lemon', 'summer'], heartit: false },
+                { author: 'Emm', date: 'Jan 12, 2018', image: 'smth.jpg', tags: ['brunch', 'cook', 'oven'], heartit: false },
+                { author: 'Emma', date: 'Jan 22, 2018', image: 'pumpkin.jpg', tags: ['brunch', 'cook', 'oven'], heartit: false },
+                { author: 'Emmaly', date: 'Jan 11, 2018', image: 'recipe.jpg', tags: ['diy', 'cooking'], heartit: false },
+                { author: 'Emy', date: 'Jan 12, 2018', image: 'limo.jpeg', tags: ['diy', 'lemon', 'summer'], heartit: false },
+                { author: 'AL', date: 'Jan 12, 2018', image: 'smth.jpg', tags: ['brunch', 'cook', 'oven'], heartit: false },
+                { author: 'Jamie J', date: 'Feb 18, 2019', image: 'juice.png', tags: ['healthy', 'vegan', 'veggies'], heartit: false },
+                { author: 'Emmly', date: 'Jan 11, 2017', image: 'recipe.png', tags: ['sweet', 'oven', 'bakedgoods'], heartit: false },
+                { author: 'Emmly', date: 'Jan 11, 2018', image: 'recipe.jpg', tags: ['diy', 'cooking'], heartit: false },
+            ],
+            id: '',
         }
         this.handleExpandClick = this.handleExpandClick.bind(this);
     }
-    handleExpandClick() {
-        this.setState({ expanded: !this.state.expanded });
+    handleExpandClick(cardID) {
+        this.setState({
+            id: cardID,
+            expanded: !this.state.expanded
+        });
     }
     render() {
-        const dashboard = (
-            <div>
-                dashboard
-            </div>
-        );
         const useStyles = makeStyles(theme => ({
             media: {
                 height: 0,
@@ -58,49 +70,90 @@ class AllPhotos extends React.Component {
                 backgroundColor: 'red',
             },
         }));
+        const cards = this.state.cards.map((card, i) => {
+            if (i === this.state.id) {
+                return (
+                    <div
+                        key={i}
+                        style={{ display: 'flex', width: '22%', flexDirection: 'column', marginLeft: '2%', marginTop: '2%', overflow: 'auto' }}>
+                        <Card>
+                            <CardHeader
+                                style={{ fontSize: 'small', }}
+                                title={`by ${card.author}`}
+                                subheader={card.date}
+                            />
+                            <CardContent
+                                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <img src={require(`../${card.image}`)} alt='img' ></img>
+                            </CardContent>
+                            <CardActions disableSpacing>
+                                <IconButton aria-label="add to favorites">
+                                    {(card.heartit) ?
+                                        <FavoriteIcon onClick={() => card.heartit = card.heartit} /> :
+                                        <FavoriteIcon color='secondary' onClick={() => card.heartit = !card.heartit} />}
+                                </IconButton>
+                                <IconButton
+                                    onClick={() => this.handleExpandClick(i)}
+                                    aria-expanded={this.state.expanded}
+                                >
+                                    See tags
+                            </IconButton>
+                            </CardActions>
+                            <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
+                                <CardContent style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                                    {card.tags.map((tag, ind) => {
+                                        return (<p key={ind}>
+                                            #{tag}
+                                        </p>)
+                                    })}
+                                </CardContent>
+                            </Collapse>
+                        </Card>
+                    </div>
+                )
+            } else {
+                return (
+                    <div
+                        key={i}
+                        style={{ display: 'flex', width: '22%', flexDirection: 'column', marginLeft: '2%', marginTop: '2%', overflow: 'auto' }}>
+                        <Card>
+                            <CardHeader
+                                style={{ fontSize: 'small', }}
+                                title={`by ${card.author}`}
+                                subheader={card.date}
+                            />
+                            <CardContent
+                                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <img src={require(`../${card.image}`)} alt='img' ></img>
+                            </CardContent>
+                            <CardActions disableSpacing>
+                                <IconButton aria-label="add to favorites">
+                                    {(card.heartit) ?
+                                        <FavoriteIcon onClick={() => card.heartit = card.heartit} /> :
+                                        <FavoriteIcon color='secondary' onClick={() => card.heartit = card.heartit} />}
+                                </IconButton>
+                                <IconButton
+                                    onClick={() => this.handleExpandClick(i)}
+                                    aria-expanded={this.state.expanded}
+                                >
+                                    See tags
+                            </IconButton>
+                            </CardActions>
+                        </Card>
+                    </div>
+                )
+            }
+        });
         return (
-            <div className='container-dashboard'>
-                <div className='box-dashboard'>
+            <div className='container-allphotos'>
+                <div className='box-allphotos'>
                     <Link to='/'> < FaRegHeart color="#fb8d98" size={45} style={{ marginLeft: '5%' }}></FaRegHeart></Link>
                     <Menu
                         isLogged={this.props.isLogged}
                         logout={this.props.logout}
                     ></Menu>
-                    <div className="content-dashboard">
-                        {/* <Card style={{height:'40vh', width:'40vh'}}>
-                            <CardHeader
-                                style={{fontSize:'1%'}}
-                                title="by User1233"
-                                subheader="September 14, 2016"
-                            />
-                            <CardMedia
-                                className={useStyles.media}
-                                image={require('../recipe.png')}
-                            />
-                            <CardContent>
-                            </CardContent>
-                            <CardActions disableSpacing>
-                                <IconButton aria-label="add to favorites">
-                                    <FavoriteIcon />
-                                </IconButton>
-                                <IconButton
-                                    onClick={this.handleExpandClick}
-                                    aria-expanded={this.state.expanded}
-                                    aria-label="show more"
-                                >
-                                    See tags
-                                </IconButton>
-                            </CardActions>
-                            <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
-                                <CardContent>
-                                    <p>#recipe</p> 
-                                    <p>#cooking</p>
-                                </CardContent>
-                            </Collapse>
-                        </Card> */}
-                        <div>
-                            Dashboard
-                        </div>
+                    <div className="content-allphotos">
+                        {cards}
                     </div>
                 </div>
             </div>

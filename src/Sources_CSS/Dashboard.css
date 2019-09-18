@@ -1,11 +1,11 @@
 .container-dashboard {
     height: 100vh;
-    width: 100%;
+    width: 100wh;
     background-image: linear-gradient(0deg, #e9defa 0%, #f3e2e4 100%);
 }
 
 .box-dashboard {
-    height: 90vh;
+    height: 90%;
     width: 90%;
     display: flex;
     justify-content: top;
@@ -23,9 +23,9 @@
 .content-dashboard { 
     display: flex;
     width: 100%;
-    height: 95%;
-    margin-top:5vh;
-    justify-content: center;
+    height: 100%;
+    flex-direction: row;
+    justify-content: left;
     background-image: linear-gradient(0deg, #e9defa 0%, whitesmoke 100%);
     border-bottom-left-radius: 2%;
     border-bottom-right-radius: 2%;

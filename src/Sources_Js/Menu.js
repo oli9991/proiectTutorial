@@ -33,7 +33,7 @@ class Menu extends React.Component {
                     {/* <FaRegHeart color="#fb8d98" size={25} style={{ marginLeft: '5%' }}></FaRegHeart> */}
                     <Link to='/dashboard' className="link">ALL PHOTOS</Link>
                     <Link to='/favorites' className="link" >YOUR FAVS</Link>
-                    <Link to='/yourphotos' className="link" >YOUR PHOTOS</Link>
+                    <Link to='/yourposts' className="link" >YOUR PHOTOS</Link>
                     <Link to='/profile' className="link">PROFILE</Link>
                     <Link onClick={() => this.handleLogout()} to='/' className="link">LOGOUT</Link>
                     <div className="searchbar">

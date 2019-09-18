@@ -21,15 +21,20 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import { recipe } from '../recipe.png';
+import { recipe } from '../recipe.jpg';
 
 class Dashboard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            expanded: false
+            expanded: false,
+            isHeartit: false,
         }
         this.handleExpandClick = this.handleExpandClick.bind(this);
+        this.changeHeart = this.changeHeart.bind(this);
+    }
+    changeHeart() {
+        this.setState({ isHeartit: !this.state.isHeartit })
     }
     handleExpandClick() {
         this.setState({ expanded: !this.state.expanded });
@@ -67,34 +72,55 @@ class Dashboard extends React.Component {
                         logout={this.props.logout}
                     ></Menu>
                     <div className="content-dashboard">
-                        <Card style={{ height: '40vh', width: '40vh'}}>
-                            <CardHeader
-                                style={{ fontSize: 'small',}}
-                                title="by User1233"
-                                subheader="September 14, 2016"
-                            />
-                            <CardMedia
-                                style={{height:'25vh'}}
-                                image={require('../recipe.png')}
-                            />
-                            <CardActions disableSpacing>
-                                <IconButton aria-label="add to favorites">
-                                    <FavoriteIcon />
-                                </IconButton>
-                                <IconButton
-                                    onClick={() => this.handleExpandClick()}
-                                    aria-expanded={this.state.expanded}
-                                >
-                                    See tags
-                                </IconButton>
-                            </CardActions>
-                            <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
-                                <CardContent style={{display:'flex'}}>
-                                    <p>#recipe</p>
-                                    <p>#cooking</p>
+                        <div style={{ display: 'flex', width: '30%', flexDirection: 'column', marginLeft: '5%',marginTop:'2%', overflow:'auto'}}>
+                            <Card>
+                                <CardHeader
+                                    style={{ fontSize: 'small', }}
+                                    title="by User1233"
+                                    subheader="September 14, 2016"
+                                />
+                                <CardContent
+                                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                    <img src={require('../juice.png')} alt='img' ></img>
                                 </CardContent>
-                            </Collapse>
-                        </Card>
+                                <CardActions disableSpacing>
+                                    <IconButton aria-label="add to favorites">
+                                        {(this.state.isHeartit) ?
+                                            <FavoriteIcon onClick={() => this.changeHeart()} /> :
+                                            <FavoriteIcon color='secondary' onClick={() => this.changeHeart()} />}
+                                    </IconButton>
+                                    <IconButton
+                                        onClick={() => this.handleExpandClick()}
+                                        aria-expanded={this.state.expanded}
+                                    >
+                                        See tags
+                                </IconButton>
+                                </CardActions>
+                                <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
+                                    <CardContent style={{ display: 'flex', flexDirection: 'row', justifyContent:'space-evenly' }}>
+                                        <p>#recipe  </p>
+                                        <p>#cooking </p>
+                                        <p>#healthy </p>
+                                        <p>#diy</p>
+                                        <p>#vegan</p>
+                                    </CardContent>
+                                </Collapse>
+                            </Card>
+                        </div>
+                        <div
+                            style={{
+                                display: 'flex',
+                                textAlign: 'center',
+                                alignItems: 'center',
+                                marginLeft: '25%',
+                                fontFamily: 'Frakfur',
+                                flexDirection:'column',
+                                justifyContent:'center'
+                            }}>
+                            <h1>POST IT. </h1>
+                            <h1>HEART IT. </h1>
+                            <h1>SAVE IT. </h1>
+                        </div>
                     </div>
                 </div>
             </div>
