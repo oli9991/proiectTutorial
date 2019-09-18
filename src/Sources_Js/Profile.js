@@ -28,6 +28,7 @@ class Profile extends React.Component {
         this.state = {
         }
     }
+
     render() {
         return (
             <div className='container-allphotos'>
@@ -38,7 +39,6 @@ class Profile extends React.Component {
                         logout={this.props.logout}
                     ></Menu>
                     <div className="content-allphotos">
-                    Profileee
                     </div>
                 </div>
             </div>
