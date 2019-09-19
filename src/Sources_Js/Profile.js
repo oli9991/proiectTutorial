@@ -1,44 +1,45 @@
 import React from 'react';
-import '../Sources_CSS/AllPhotos.css';
-import {
-    InputBase,
-    TextField
-} from '@material-ui/core';
-import { FaRegHeart, FaSearch } from 'react-icons/fa';
+import '../Sources_CSS/Profile.css';
+import { FaRegHeart } from 'react-icons/fa';
 import Menu from './Menu';
-import Login from './Login';
 import { Link } from 'react-router-dom';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 
 class Profile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            firstName: 'EMilson',
+            lastName: 'Emily',
+            email: 'emily@gmail.com',
+            phone: '0746364728'
         }
     }
 
     render() {
         return (
-            <div className='container-allphotos'>
-                <div className='box-allphotos'>
+            <div className='container-profile'>
+                <div className='box-profile'>
                     <Link to='/'> < FaRegHeart color="#fb8d98" size={45} style={{ marginLeft: '5%' }}></FaRegHeart></Link>
                     <Menu
                         isLogged={this.props.isLogged}
                         logout={this.props.logout}
                     ></Menu>
-                    <div className="content-allphotos">
+                    <div className="content-profile">
+                        <h1 style={{ margin: '2%', color: '#553D67' }}>
+                            ACCOUNT INFO
+                    </h1>
+                        <div style={{ display: 'flex', margin: '2%', flexDirection: 'column', color: '#553D67' }}>
+                            <p>
+                                Name : {this.state.firstName} {this.state.lastName}
+                            </p>
+                            <p>
+                                Email : {this.state.email}
+                            </p>
+                            <p>
+                                Phone : {this.state.phone}
+                            </p>
+
+                        </div>
                     </div>
                 </div>
             </div>

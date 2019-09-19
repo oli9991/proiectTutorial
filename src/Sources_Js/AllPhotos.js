@@ -44,32 +44,22 @@ class AllPhotos extends React.Component {
             id: '',
         }
         this.handleExpandClick = this.handleExpandClick.bind(this);
+        this.heartPhoto = this.heartPhoto.bind(this);
     }
-    handleExpandClick(cardID) {
+    handleExpandClick(cardIndex) {
         this.setState({
-            id: cardID,
+            id: cardIndex,
             expanded: !this.state.expanded
         });
     }
+    heartPhoto(cardIndex) {
+        const copy = this.state.cards[cardIndex].heartit;
+        const arr = this.state.cards;
+        arr[cardIndex].heartit = !copy;
+        this.setState({ cards: arr });
+
+    }
     render() {
-        const useStyles = makeStyles(theme => ({
-            media: {
-                height: 0,
-            },
-            expand: {
-                transform: 'rotate(0deg)',
-                marginLeft: 'auto',
-                transition: theme.transitions.create('transform', {
-                    duration: theme.transitions.duration.shortest,
-                }),
-            },
-            expandOpen: {
-                transform: 'rotate(180deg)',
-            },
-            avatar: {
-                backgroundColor: 'red',
-            },
-        }));
         const cards = this.state.cards.map((card, i) => {
             if (i === this.state.id) {
                 return (
@@ -89,8 +79,9 @@ class AllPhotos extends React.Component {
                             <CardActions disableSpacing>
                                 <IconButton aria-label="add to favorites">
                                     {(card.heartit) ?
-                                        <FavoriteIcon onClick={() => card.heartit = card.heartit} /> :
-                                        <FavoriteIcon color='secondary' onClick={() => card.heartit = !card.heartit} />}
+                                        <FavoriteIcon color='secondary' onClick={() => this.heartPhoto(i)} /> :
+                                        <FavoriteIcon onClick={() => this.heartPhoto(i)} />
+                                    }
                                 </IconButton>
                                 <IconButton
                                     onClick={() => this.handleExpandClick(i)}
@@ -129,8 +120,9 @@ class AllPhotos extends React.Component {
                             <CardActions disableSpacing>
                                 <IconButton aria-label="add to favorites">
                                     {(card.heartit) ?
-                                        <FavoriteIcon onClick={() => card.heartit = card.heartit} /> :
-                                        <FavoriteIcon color='secondary' onClick={() => card.heartit = card.heartit} />}
+                                        <FavoriteIcon color='secondary' onClick={() => this.heartPhoto(i)} /> :
+                                        <FavoriteIcon onClick={() => this.heartPhoto(i)} />
+                                    }
                                 </IconButton>
                                 <IconButton
                                     onClick={() => this.handleExpandClick(i)}
