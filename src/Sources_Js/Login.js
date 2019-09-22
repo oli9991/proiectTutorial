@@ -33,9 +33,37 @@ class Login extends React.Component {
             [event.target.name]: event.target.value
         });
     };
-    login() {
-        this.props.login();
-        this.props.history.push('/dashboard');
+    async login() {
+        if (this.state.email === '' || this.state.password === '') {
+            alert('pss...ai uitat sa completezi campuri');
+        } else {
+            try {
+                const response = await fetch('http://3.19.223.148:3000/api/auth/autentificare',
+                    {
+                        method: 'POST',
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            "email": this.state.email,
+                            "password": this.state.password
+                        }),
+                    });
+                if (!response.ok) {
+                    throw Error(response.statusText);
+                }
+                this.setState({
+                    email: " ",
+                    password: '',
+                })
+                const json = await response.json();
+                this.props.setToken(json.data.token);
+                console.log(json.data.token);
+                this.props.login();
+                this.props.history.push('/dashboard');
+            } catch (error) {
+                console.log(error);
+                alert('invalid password or email');
+            }
+        }
     }
     render() {
         return (
@@ -45,6 +73,7 @@ class Login extends React.Component {
                     <Menu
                         isLogged={this.props.isLogged}
                         logout={this.props.logout}
+                        login={this.props.login}
                     >
                     </Menu>
                     <div className="content-login">

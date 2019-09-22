@@ -23,6 +23,7 @@ class Profile extends React.Component {
                     <Menu
                         isLogged={this.props.isLogged}
                         logout={this.props.logout}
+                        login={this.props.login}
                     ></Menu>
                     <div className="content-profile">
                         <h1 style={{ margin: '2%', color: '#553D67' }}>

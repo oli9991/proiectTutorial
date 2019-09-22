@@ -1,5 +1,3 @@
-import { type } from "os";
-
 import React from 'react';
 import '../Sources_CSS/Register.css';
 import {
@@ -19,14 +17,12 @@ class Register extends React.Component {
         super(props);
         this.state = {
             showPassword: false,
-            firstName: '',
-            lastName: '',
-            phone: '',
             password: '',
             email: '',
         }
         this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
         this.onChangeHandler = this.onChangeHandler.bind(this);
+        this.register = this.register.bind(this);
     }
     handleClickShowPassword() {
         this.setState({
@@ -37,7 +33,35 @@ class Register extends React.Component {
         this.setState({
             [event.target.name]: event.target.value
         });
-    };
+    }
+    async register() {
+        if (this.state.email === '' || this.state.password === '') {
+            alert('pss...ai uitat sa completezi campuri');
+        } else {
+            try {
+                const response = await fetch('http://3.19.223.148:3000/api/auth/inregistrare',
+                    {
+                        method: 'POST',
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            "email": this.state.email,
+                            "password": this.state.password
+                        }),
+                    });
+                if (!response.ok) {
+                    throw Error(response.statusText);
+                }
+                this.setState({
+                    email: " ",
+                    password: '',
+                })
+            } catch (error) {
+                console.log(error);
+                alert('error');
+            }
+        }
+    }
+
     render() {
         return (
             <div className='container-register'>
@@ -46,30 +70,10 @@ class Register extends React.Component {
                     <Menu
                         isLogged={this.props.isLogged}
                         logout={this.props.logout}
+                        login={this.props.login}
                     ></Menu>
                     <div className="content-register">
                         <div className='form-register'>
-                            <div className="name-fields">
-                                <TextField
-                                    className="text-field"
-                                    label="First name*"
-                                    variant="outlined"
-                                    type='text'
-                                    id="mui-theme-provider-outlined-input"
-                                    name='firstName'
-                                    value={this.state.firstName}
-                                    onChange={(e) => this.onChangeHandler(e)}
-                                />
-                                <TextField
-                                    className="text-field"
-                                    label="Last name*"
-                                    variant="outlined"
-                                    id="mui-theme-provider-outlined-input"
-                                    name='lastName'
-                                    value={this.state.lastName}
-                                    onChange={(e) => this.onChangeHandler(e)}
-                                />
-                            </div>
                             <TextField
                                 className="text-field"
                                 label="Email*"
@@ -95,7 +99,6 @@ class Register extends React.Component {
                                                 edge="end"
                                                 aria-label="toggle password visibility"
                                                 onClick={this.handleClickShowPassword}
-                                            // onMouseDown={handleMouseDownPassword}
                                             >
                                                 {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
                                             </IconButton>
@@ -103,17 +106,9 @@ class Register extends React.Component {
                                     ),
                                 }}
                             />
-                            <TextField
-                                className="text-field"
-                                label="Phone*"
-                                variant="outlined"
-                                id="mui-theme-provider-outlined-input"
-                                type="number"
-                                name='phone'
-                                value={this.state.phone}
-                                onChange={(e) => this.onChangeHandler(e)}
-                            />
-                            <Button color="secondary" style={{ height: '5vh', width: '80%' }}>
+                            <Button
+                                onClick={(e) => this.register()}
+                                color="secondary" style={{ height: '5vh', width: '80%' }}>
                                 Register
                             </Button>
                         </div>

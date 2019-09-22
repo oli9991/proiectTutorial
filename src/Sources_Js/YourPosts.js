@@ -1,10 +1,9 @@
 import React from 'react';
 import '../Sources_CSS/YourPosts.css';
 import {
-    InputBase,
     TextField
 } from '@material-ui/core';
-import { FaRegHeart, FaSearch } from 'react-icons/fa';
+import { FaRegHeart } from 'react-icons/fa';
 import Menu from './Menu';
 import { Link } from 'react-router-dom';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
@@ -18,34 +17,42 @@ class YourPosts extends React.Component {
         super(props);
         this.state = {
             picture: '',
-            tags: [],
-            tag: '',
         }
         this.onDrop = this.onDrop.bind(this);
-        this.addTag = this.addTag.bind(this);
-        this.deleteTag = this.deleteTag.bind(this);
-        this.tagChange = this.tagChange.bind(this);
+        this.uploadPhoto = this.uploadPhoto.bind(this);
     }
     onDrop(picture) {
         this.setState({
             picture: picture,
         });
     }
-    addTag() {
-        if (this.state.tag !== '') {
-            const copy = this.state.tags.concat(this.state.tag);
-            this.setState({ tag: '', tags: copy });
-        } else {
-            alert('tag invalid');
+    async uploadPhoto() {
+        if (this.state.picture !== '') {
+            try {
+                let data = new FormData();
+                data.append('image', this.state.picture.image);
+                data.append('name', this.state.picture.name);
+                const response = await fetch('http://3.19.223.148:3000/api/poze',
+                    {
+                        method: 'POST',
+                        headers: {
+                            "Content-Type": "application/json",
+                            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        },
+
+                        body: JSON.stringify({
+                            "poza": data,
+                        }),
+                    });
+                if (!response.ok) {
+                    throw Error(response.statusText);
+                }
+            } catch (error) {
+                console.log(error);
+                alert('error');
+            }
         }
-    }
-    deleteTag(index) {
-        const copy = this.state.tags;
-        copy.splice(index, 1);
-        this.setState({ tags: copy });
-    }
-    tagChange(e) {
-        this.setState({ tag: e.target.value });
+
     }
     render() {
         var myDialog = {
@@ -66,6 +73,7 @@ class YourPosts extends React.Component {
                     <Menu
                         isLogged={this.props.isLogged}
                         logout={this.props.logout}
+                        login={this.props.login}
                     ></Menu>
                     <div className="content-yourposts">
                         <Button
@@ -87,35 +95,8 @@ class YourPosts extends React.Component {
                                     imgExtension={['.jpg', '.gif', '.png', '.gif']}
                                     maxFileSize={5242880}
                                 />
-                                <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
-                                    <TextField
-                                        style={{ width: "60%" }}
-                                        id="standard-name"
-                                        label="tag"
-                                        value={this.state.tag}
-                                        onChange={this.tagChange}
-                                        margin="normal"
-                                    />
-                                    <Button
-                                        onClick={() => this.addTag()}
-                                        variant="contained"
-                                        color="secondary"
-                                        style={{ height: '30%%', marginLeft: '5%', marginTop: '1%', width: '40%' }}>
-                                        Add tag
-                                    </Button>
-                                </div>
-                                <div style={{ flexDirection: 'row' }}>
-                                    {this.state.tags && this.state.tags.map((tag, i) => {
-                                        return (
-                                            <Button key={i} color='secondary' onClick={() => this.deleteTag(i)}>
-                                                {tag}
-                                                <DeleteIcon onClick={() => this.deleteTag(i)}></DeleteIcon>
-                                            </Button>
-                                        )
-                                    })}
-                                </div>
                                 <Button
-                                    // onClick={() => this.customDialog.show()}
+                                    onClick={() => this.uploadPhoto}
                                     variant="contained"
                                     color="secondary"
                                     style={{

@@ -15,17 +15,25 @@ class App extends React.Component {
     super(props);
     this.state = {
       isLogged: false,
-      message: 'LOGIN'
+      message: 'LOGIN',
+      token: '',
     }
     this.logMein = this.logMein.bind(this);
     this.logMeout = this.logMeOut.bind(this);
+    this.setToken = this.setToken.bind(this);
+  }
+  setToken(token) {
+    this.setState({ token: token });
   }
   logMein = () => {
+    localStorage.setItem('token', this.state.token);
     this.setState({ isLogged: true, message: 'LOGOUT' });
   }
   logMeOut = () => {
+    localStorage.removeItem('token');
     this.setState({ isLogged: false, message: 'LOGIN' });
   }
+
   render() {
     return (
       <Router>
@@ -39,6 +47,7 @@ class App extends React.Component {
               isLogged={this.state.isLogged}
               message={this.state.message}
               logout={this.logMeOut}
+              login={this.logMein}
             />} />
           <Route
             path="/login"
@@ -48,6 +57,7 @@ class App extends React.Component {
               isLogged={this.state.isLogged}
               message={this.state.message}
               login={this.logMein}
+              setToken={this.setToken}
               logout={this.logMeOut}
             />} />
           <Route
@@ -58,6 +68,7 @@ class App extends React.Component {
               isLogged={this.state.isLogged}
               message={this.state.message}
               logout={this.logMeOut}
+              login={this.logMein}
             />} />
           <Route
             path="/dashboard"
@@ -67,6 +78,7 @@ class App extends React.Component {
               isLogged={this.state.isLogged}
               message={this.state.message}
               logout={this.logMeOut}
+              login={this.logMein}
             />} />
           <Route
             path="/favorites"
@@ -76,6 +88,7 @@ class App extends React.Component {
               isLogged={this.state.isLogged}
               message={this.state.message}
               logout={this.logMeOut}
+              login={this.logMein}
             />} />
           <Route
             path="/yourposts"
@@ -85,8 +98,9 @@ class App extends React.Component {
               isLogged={this.state.isLogged}
               message={this.state.message}
               logout={this.logMeOut}
+              login={this.logMein}
             />} />
-          <Route
+          {/* <Route
             path="/profile"
             exact
             render={(props) => <Profile
@@ -94,7 +108,8 @@ class App extends React.Component {
               isLogged={this.state.isLogged}
               message={this.state.message}
               logout={this.logMeOut}
-            />} />
+              login={this.logMein}
+            />} /> */}
 
         </Switch>
       </Router>

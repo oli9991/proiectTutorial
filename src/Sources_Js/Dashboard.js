@@ -7,7 +7,6 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 
@@ -17,12 +16,18 @@ class Dashboard extends React.Component {
         this.state = {
             expanded: false,
             isHeartit: false,
+            hearts: 0,
         }
         this.handleExpandClick = this.handleExpandClick.bind(this);
         this.changeHeart = this.changeHeart.bind(this);
     }
     changeHeart() {
-        this.setState({ isHeartit: !this.state.isHeartit })
+        if (this.state.isHeartit === true) {
+            this.setState({ hearts: 0, isHeartit: false });
+        } else {
+            this.setState({ hearts: 1, isHeartit: true });
+        }
+        // this.setState({ isHeartit: !this.state.isHeartit });
     }
     handleExpandClick() {
         this.setState({ expanded: !this.state.expanded });
@@ -35,6 +40,7 @@ class Dashboard extends React.Component {
                     <Menu
                         isLogged={this.props.isLogged}
                         logout={this.props.logout}
+                        login={this.props.login}
                     ></Menu>
                     <div className="content-dashboard">
                         <div style={{ display: 'flex', width: '30%', flexDirection: 'column', marginLeft: '5%', marginTop: '2%', overflow: 'auto' }}>
@@ -55,22 +61,10 @@ class Dashboard extends React.Component {
                                             <FavoriteIcon onClick={() => this.changeHeart()} />
                                         }
                                     </IconButton>
-                                    <IconButton
-                                        onClick={() => this.handleExpandClick()}
-                                        aria-expanded={this.state.expanded}
-                                    >
-                                        See tags
-                                </IconButton>
+                                    <p>
+                                        {this.state.hearts}
+                                    </p>
                                 </CardActions>
-                                <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
-                                    <CardContent style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                                        <p>#recipe  </p>
-                                        <p>#cooking </p>
-                                        <p>#healthy </p>
-                                        <p>#diy</p>
-                                        <p>#vegan</p>
-                                    </CardContent>
-                                </Collapse>
                             </Card>
                         </div>
                         <div
