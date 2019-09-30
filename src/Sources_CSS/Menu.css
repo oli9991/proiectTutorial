@@ -3,6 +3,7 @@
     width: 90%;
     border-radius: 2%;
     flex-direction: row-reverse;
+    margin-bottom: 1%;
 }
 .menu-logged {
   display: flex;
@@ -11,6 +12,7 @@
   justify-content: space-evenly;
   vertical-align: middle;
   float: left;
+  margin-bottom: 1%;
 }
 .link {
     vertical-align: middle;

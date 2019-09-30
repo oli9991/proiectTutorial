@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import '../Sources_CSS/Menu.css';
 
 class Menu extends React.Component {
@@ -13,26 +13,25 @@ class Menu extends React.Component {
     handleLogout() {
         this.props.logout();
     }
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         console.log('token', localStorage.getItem('token'));
         if (localStorage.getItem('token')) {
             this.props.login();
         }
     }
     render() {
-        if (this.props.isLogged === false) {
+        if (!localStorage.getItem('token')) {
             return (
-                <div className='menu'>
-                    <Link to='/login' className="link">LOGIN</Link>
-                </div>
+                // <div className='menu'>
+                <Redirect to='/login'></Redirect> 
+                // </div>
             )
-        } else if (this.props.isLogged) {
+        } else {
             return (
                 <div className='menu-logged'>
                     <Link to='/dashboard' className="link">ALL PHOTOS</Link>
                     <Link to='/favorites' className="link" >YOUR FAVS</Link>
                     <Link to='/yourposts' className="link" >YOUR PHOTOS</Link>
-                    {/* <Link to='/profile' className="link">PROFILE</Link> */}
                     <Link onClick={() => this.handleLogout()} to='/' className="link">LOGOUT</Link>
                 </div>
             );

@@ -8,9 +8,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Button from '@material-ui/core/Button';
-import { FaRegHeart } from 'react-icons/fa';
-import Menu from './Menu';
+import { FaHeart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { ToastsContainer, ToastsStore } from 'react-toasts';
 
 class Register extends React.Component {
     constructor(props) {
@@ -41,7 +41,7 @@ class Register extends React.Component {
             try {
                 const response = await fetch('http://3.19.223.148:3000/api/auth/inregistrare',
                     {
-                        method: 'POST',
+                        method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
                             "email": this.state.email,
@@ -51,6 +51,8 @@ class Register extends React.Component {
                 if (!response.ok) {
                     throw Error(response.statusText);
                 }
+                ToastsStore.success("You account is ready to use!");
+                ToastsStore.info(`You can log in now`);
                 this.setState({
                     email: " ",
                     password: '',
@@ -66,12 +68,7 @@ class Register extends React.Component {
         return (
             <div className='container-register'>
                 <div className='box-register'>
-                    <Link to='/'> < FaRegHeart color="#fb8d98" size={45} style={{ marginLeft: '5%' }}></FaRegHeart></Link>
-                    <Menu
-                        isLogged={this.props.isLogged}
-                        logout={this.props.logout}
-                        login={this.props.login}
-                    ></Menu>
+                    <Link to='/'> < FaHeart color="#fb8d98" size={45} style={{ marginLeft: '5%' }}></FaHeart></Link>
                     <div className="content-register">
                         <div className='form-register'>
                             <TextField
@@ -114,6 +111,7 @@ class Register extends React.Component {
                         </div>
                         <Link to='/login'>You already have an account? Login</Link>
                     </div>
+                    <ToastsContainer store={ToastsStore} />
                 </div>
             </div>
         );

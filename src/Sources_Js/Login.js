@@ -8,9 +8,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Button from '@material-ui/core/Button';
-import { FaRegHeart } from 'react-icons/fa';
-import Menu from './Menu';
+import { FaHeart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { ToastsContainer, ToastsStore } from 'react-toasts';
 
 class Login extends React.Component {
     constructor(props) {
@@ -40,7 +40,7 @@ class Login extends React.Component {
             try {
                 const response = await fetch('http://3.19.223.148:3000/api/auth/autentificare',
                     {
-                        method: 'POST',
+                        method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
                             "email": this.state.email,
@@ -54,6 +54,7 @@ class Login extends React.Component {
                     email: " ",
                     password: '',
                 })
+                ToastsStore.success(`You are now logged in!`);
                 const json = await response.json();
                 this.props.setToken(json.data.token);
                 console.log(json.data.token);
@@ -69,13 +70,7 @@ class Login extends React.Component {
         return (
             <div className='container-login'>
                 <div className='box-login'>
-                    <Link to='/'> < FaRegHeart color="#fb8d98" size={45} style={{ marginLeft: '5%' }}></FaRegHeart></Link>
-                    <Menu
-                        isLogged={this.props.isLogged}
-                        logout={this.props.logout}
-                        login={this.props.login}
-                    >
-                    </Menu>
+                    <Link to='/'> < FaHeart color="#fb8d98" size={45} style={{ marginLeft: '5%' }}></FaHeart></Link>
                     <div className="content-login">
                         <div className='form-login'>
                             <TextField
@@ -103,7 +98,6 @@ class Login extends React.Component {
                                                 edge="end"
                                                 aria-label="toggle password visibility"
                                                 onClick={this.handleClickShowPassword}
-                                            // onMouseDown={handleMouseDownPassword}
                                             >
                                                 {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
                                             </IconButton>
@@ -119,6 +113,7 @@ class Login extends React.Component {
                             </Button>
                         </div>
                         <Link to='/register'>You don't have an account? Register now</Link>
+                        <ToastsContainer store={ToastsStore} />
                     </div>
                 </div>
             </div>
