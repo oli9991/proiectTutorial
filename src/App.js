@@ -1,13 +1,12 @@
 import React from 'react';
 import './Sources_CSS/App.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Dashboard from './Sources_Js/Dashboard';
+import Main from './Sources_Js/Main';
 import Login from './Sources_Js/Login';
 import Register from './Sources_Js/Register';
-import AllPhotos from './Sources_Js/AllPhotos';
+import Dashboard from './Sources_Js/Dashboard';
 import Favs from './Sources_Js/Favs';
 import YourPosts from './Sources_Js/YourPosts';
-import Profile from './Sources_Js/Profile';
 
 class App extends React.Component {
 
@@ -24,9 +23,9 @@ class App extends React.Component {
   }
   setToken(token) {
     this.setState({ token: token });
-  }
-  logMein = () => {
     localStorage.setItem('token', this.state.token);
+  }
+  logMein() {
     this.setState({ isLogged: true, message: 'LOGOUT' });
   }
   logMeOut = () => {
@@ -42,7 +41,7 @@ class App extends React.Component {
           <Route
             path="/"
             exact
-            render={(props) => <Dashboard
+            render={(props) => <Main
               {...props}
               isLogged={this.state.isLogged}
               message={this.state.message}
@@ -73,7 +72,7 @@ class App extends React.Component {
           <Route
             path="/dashboard"
             exact
-            render={(props) => <AllPhotos
+            render={(props) => <Dashboard
               {...props}
               isLogged={this.state.isLogged}
               message={this.state.message}
@@ -100,17 +99,6 @@ class App extends React.Component {
               logout={this.logMeOut}
               login={this.logMein}
             />} />
-          {/* <Route
-            path="/profile"
-            exact
-            render={(props) => <Profile
-              {...props}
-              isLogged={this.state.isLogged}
-              message={this.state.message}
-              logout={this.logMeOut}
-              login={this.logMein}
-            />} /> */}
-
         </Switch>
       </Router>
 
