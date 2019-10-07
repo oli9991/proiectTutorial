@@ -22,9 +22,7 @@ class Menu extends React.Component {
     render() {
         if (!localStorage.getItem('token')) {
             return (
-                // <div className='menu'>
                 <Redirect to='/login'></Redirect> 
-                // </div>
             )
         } else {
             return (

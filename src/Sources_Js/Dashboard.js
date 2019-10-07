@@ -6,6 +6,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import ReactLoading from 'react-loading';
+
 
 class AllPhotos extends React.Component {
     constructor(props) {
@@ -13,19 +15,21 @@ class AllPhotos extends React.Component {
         this.state = {
             photos: [],
             pageNo: 1,
-            pageSize: 11,
+            pageSize: 4,
             stop: false,
         }
         this.loadPhotos = this.loadPhotos.bind(this);
         this.likePhoto = this.likePhoto.bind(this);
         this.handleScroll = this.handleScroll.bind(this);
     }
-    UNSAFE_componentWillMount() {
-        this.loadPhotos();
 
-    }
     componentDidMount() {
         document.title = "Dashboard";
+        this.loadPhotos().then(() => {
+            this.loadPhotos().then(() => {
+                this.loadPhotos();
+            });
+        });
     }
     handleScroll = e => {
         let element = e.target
@@ -163,6 +167,7 @@ class AllPhotos extends React.Component {
                         }} onScroll={this.handleScroll}
                         >
                             {photos}
+                            {(this.state.stop) ? <p></p> : <ReactLoading type={'bubbles'} color={'#fb8d98'} height={'20%'} width={'20%'} />}
                         </div>
                     </div>
                 </div >

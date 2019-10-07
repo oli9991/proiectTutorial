@@ -9,6 +9,7 @@ import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { ToastsContainer, ToastsStore } from 'react-toasts';
+import ReactLoading from 'react-loading';
 
 class YourPosts extends React.Component {
     constructor(props) {
@@ -18,7 +19,7 @@ class YourPosts extends React.Component {
             imagePreviewUrl: '',
             photos: [],
             pageNo: 0,
-            pageSize: 11,
+            pageSize: 4,
             stop: false,
         }
         this.uploadPhoto = this.uploadPhoto.bind(this);
@@ -27,12 +28,13 @@ class YourPosts extends React.Component {
         this.likePhoto = this.likePhoto.bind(this);
         this.handleScroll = this.handleScroll.bind(this);
     }
-    UNSAFE_componentWillMount() {
-        this.loadPhotos();
-
-    }
     componentDidMount() {
         document.title = "Your Posts";
+        this.loadPhotos().then(() => {
+            this.loadPhotos().then(() => {
+                this.loadPhotos();
+            });
+        });
     }
     handleImageChange(e) {
         e.preventDefault();
@@ -242,6 +244,7 @@ class YourPosts extends React.Component {
                         }} onScroll={this.handleScroll}
                         >
                             {photos}
+                            {(this.state.stop) ? <p></p> : <ReactLoading type={'bubbles'} color={'#fb8d98'} height={'20%'} width={'20%'} />}
                         </div>
                         <ToastsContainer store={ToastsStore} />
                     </div>
