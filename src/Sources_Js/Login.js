@@ -75,7 +75,7 @@ class Login extends React.Component {
                         <div className='form-login'>
                             <TextField
                                 className="text-field"
-                                label="email"
+                                label="Email*"
                                 variant="outlined"
                                 id="mui-theme-provider-outlined-input"
                                 name='email'
@@ -87,7 +87,7 @@ class Login extends React.Component {
                                 className="text-field"
                                 variant="outlined"
                                 type={this.state.showPassword ? 'text' : 'password'}
-                                label="Password"
+                                label="Password*"
                                 name='password'
                                 value={this.state.password}
                                 onChange={(e) => this.onChangeHandler(e)}
@@ -112,7 +112,7 @@ class Login extends React.Component {
                                 Login
                             </Button>
                         </div>
-                        <Link to='/register'>You don't have an account? Register now</Link>
+                        <Link to='/register' className='link-register'>You don't have an account? Register now</Link>
                         <ToastsContainer store={ToastsStore} />
                     </div>
                 </div>

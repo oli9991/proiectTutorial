@@ -1,12 +1,8 @@
 import React from 'react';
 import '../Sources_CSS/Dashboard.css';
 import Menu from './Menu';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import IconButton from '@material-ui/core/IconButton';
-import FavoriteIcon from '@material-ui/icons/Favorite';
 import ReactLoading from 'react-loading';
+import MyCard from './MyCard'
 
 
 class AllPhotos extends React.Component {
@@ -18,6 +14,7 @@ class AllPhotos extends React.Component {
             pageSize: 4,
             stop: false,
         }
+        console.log('props din dashboard', this.props);
         this.loadPhotos = this.loadPhotos.bind(this);
         this.likePhoto = this.likePhoto.bind(this);
         this.handleScroll = this.handleScroll.bind(this);
@@ -72,80 +69,48 @@ class AllPhotos extends React.Component {
         }
     }
     async loadPhotos(e) {
-        try {
-            const response = await fetch(
-                `http://3.19.223.148:3000/api/poze/?pageNo=${this.state.pageNo}&pageSize=${this.state.pageSize}`,
-                {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                    },
-                });
-            if (!response.ok) {
-                throw Error(response.statusText);
+        if (localStorage.getItem('dashboardPhotos') === true) {
+            var len = this.props.allphotos.length / this.state.pageNo;
+            this.setState({
+                photos: this.props.allphotos,
+                pageNo: len + 1,
+            })
+        } else {
+            try {
+                const response = await fetch(
+                    `http://3.19.223.148:3000/api/poze/?pageNo=${this.state.pageNo}&pageSize=${this.state.pageSize}`,
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        },
+                    });
+                if (!response.ok) {
+                    throw Error(response.statusText);
+                }
+                const json = await response.json();
+                console.log(json.data.poze);
+                if (json.data.poze.length === 0) {
+                    this.setState({
+                        stop: true
+                    })
+                } else {
+                    this.props.loadPhotos(json.data.poze);
+                    const arr = this.state.photos.concat(json.data.poze);
+                    this.setState({
+                        photos: arr,
+                        pageNo: this.state.pageNo + 1
+                    })
+                }
+            } catch (error) {
+                console.log(error);
             }
-            const json = await response.json();
-            console.log(json.data.poze);
-            if (json.data.poze.length === 0) {
-                this.setState({
-                    stop: true
-                })
-            } else {
-                const arr = this.state.photos.concat(json.data.poze);
-                this.setState({
-                    photos: arr,
-                    pageNo: this.state.pageNo + 1
-                })
-            }
-        } catch (error) {
-            console.log(error);
         }
     }
     render() {
         const photos = this.state.photos && this.state.photos.map((photo, i) => {
             return (
-                <div
-                    key={i}
-                    style={{
-                        display: 'display',
-                        width: '20%',
-                        overflow: 'auto',
-                        marginBottom: '1%',
-                    }}>
-                    <Card
-                        style={{
-                            width: '90%',
-                            flexDirection: 'column',
-                            display: 'flex'
-                        }}>
-                        <CardContent
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                height: "90%"
-                            }}>
-                            <img
-                                src={`data:image/jpeg;base64,${photo.poza}`}
-                                style={{ maxHeight: '100%', maxWidth: '100%' }}
-                                alt='img'>
-                            </img>
-                        </CardContent>
-                        <CardActions disableSpacing style={{ display: 'flex', height: '10%' }}>
-                            <IconButton
-                                aria-label="add to favorites"
-                                onClick={() => this.likePhoto(photo.id, photo)}
-                                className="icon"
-                            >
-                                {(photo.likeFromMe === "1") ?
-                                    <FavoriteIcon color='secondary' /> :
-                                    <FavoriteIcon />
-                                }
-                            </IconButton>
-                            <p>{(photo.likes === 1) ? `${photo.likes} heart` : `${photo.likes} hearts`}</p>
-                        </CardActions>
-                    </Card>
-                </div>
+                <MyCard photo={photo} key={i} likePhoto={this.likePhoto}></MyCard>
             );
         })
         return (
@@ -155,6 +120,7 @@ class AllPhotos extends React.Component {
                         isLogged={this.props.isLogged}
                         logout={this.props.logout}
                         login={this.props.login}
+                        page={'dashboardPage'}
                     ></Menu>
                     <div className="content-dashboard">
                         <div style={{
@@ -167,7 +133,8 @@ class AllPhotos extends React.Component {
                         }} onScroll={this.handleScroll}
                         >
                             {photos}
-                            {(this.state.stop) ? <p></p> : <ReactLoading type={'bubbles'} color={'#fb8d98'} height={'20%'} width={'20%'} />}
+                            {(this.state.stop) ? <p></p> :
+                                <ReactLoading type={'bubbles'} color={'#fb8d98'} height={'20%'} width={'20%'} />}
                         </div>
                     </div>
                 </div >

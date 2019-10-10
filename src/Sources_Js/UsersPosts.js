@@ -1,10 +1,12 @@
 import React from 'react';
-import '../Sources_CSS/Favs.css';
+import '../Sources_CSS/UsersPosts.css';
 import Menu from './Menu';
 import ReactLoading from 'react-loading';
 import MyCard from './MyCard'
+import UploadPhotoForm from './UploadPhotoForm';
 
-class Favs extends React.Component {
+
+class UsersPosts extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -16,11 +18,9 @@ class Favs extends React.Component {
         this.loadPhotos = this.loadPhotos.bind(this);
         this.likePhoto = this.likePhoto.bind(this);
         this.handleScroll = this.handleScroll.bind(this);
-
     }
-
     componentDidMount() {
-        document.title = "Favorites";
+        document.title = "Your Posts";
         this.loadPhotos().then(() => {
             this.loadPhotos().then(() => {
                 this.loadPhotos();
@@ -50,22 +50,28 @@ class Favs extends React.Component {
             if (!response.ok) {
                 throw Error(response.statusText);
             }
+            console.log('liked');
             const arr = this.state.photos;
             const index = arr.indexOf(photo);
-            arr.splice(index, 1);
-            this.setState({
-                photos: arr
-            })
-            console.log('poze acum', this.state.photos);
+
+            if (arr[index].likeFromMe === "0") {
+                arr[index].likes = arr[index].likes + 1;
+                arr[index].likeFromMe = "1";
+            } else {
+                arr[index].likes = arr[index].likes - 1;
+                arr[index].likeFromMe = "0";
+            }
+            this.setState({ photos: arr });
         } catch (error) {
             console.log(error);
             alert('error');
         }
     }
+
     async loadPhotos() {
         try {
             const response = await fetch(
-                `http://3.19.223.148:3000/api/poze/like/?pageNo=${this.state.pageNo + 1}&pageSize=${this.state.pageSize}`,
+                `http://3.19.223.148:3000/api/poze/colectiaMea?pageNo=${this.state.pageNo + 1}&pageSize=${this.state.pageSize}`,
                 {
                     method: 'GET',
                     headers: {
@@ -79,12 +85,10 @@ class Favs extends React.Component {
             console.log(json.data.poze);
             if (json.data.poze.length === 0) {
                 this.setState({
-                    ...this.state,
                     stop: true
                 })
             } else {
                 this.setState({
-                    ...this.state,
                     photos: this.state.photos.concat(json.data.poze),
                     pageNo: this.state.pageNo + 1
                 })
@@ -100,15 +104,16 @@ class Favs extends React.Component {
             );
         })
         return (
-            <div className='container-favs'>
-                <div className='box-favs'>
+            <div className='container-yourposts'>
+                <div className='box-yourposts'>
                     <Menu
                         isLogged={this.props.isLogged}
                         logout={this.props.logout}
                         login={this.props.login}
-                        page={"favsPage"}
+                        page={'usersPostsPage'}
                     ></Menu>
-                    <div className="content-favs">
+                    <div className="content-yourposts">
+                        <UploadPhotoForm />
                         <div style={{
                             flexWrap: 'wrap',
                             display: 'flex',
@@ -129,4 +134,4 @@ class Favs extends React.Component {
     }
 }
 
-export default Favs;
+export default UsersPosts;

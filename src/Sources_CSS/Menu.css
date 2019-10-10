@@ -1,44 +1,84 @@
 .menu {
-    display: flex;
-    width: 90%;
-    border-radius: 2%;
-    flex-direction: row-reverse;
-    margin-bottom: 1%;
+  display: flex;
+  width: 90%;
+  border-radius: 2%;
+  flex-direction: row-reverse;
+  margin-bottom: 1%;
 }
+
 .menu-logged {
   display: flex;
   width: 100%;
-  border-radius: 2%;
+  /* border-radius: 1%; */
+  border-bottom-left-radius: 100%;
+  border-bottom-right-radius: 100%;
   justify-content: space-evenly;
-  vertical-align: middle;
   float: left;
-  margin-bottom: 1%;
+  /* margin-bottom: 1%; */
+  background: #fb8d98;
+  height: 6%;
+
 }
+
 .link {
-    vertical-align: middle;
-    font-weight: bold;
+  /* vertical-align: -10%; */
+  margin-top: 0.75%;
+  font-weight: bold;
 }
+
 .link:link {
-    text-decoration: none;
-    color: #fb8d98;
-    font-size: 1rem;
-  }
-  
-  .link:visited {
-    text-decoration: none;
-    color: #fb8d98;
-    border-top: #fb8d98;
-    border-top-style: solid;
-  }
-  
-  .link:hover {
-    text-decoration: none;
-    color: #fb8d98;
-  }
-  
-  .link:active {
-    text-decoration: none;
-    color: #fb8d98;
-    border-top: #fb8d98;
-    border-top-style: solid;
-  }
+  text-decoration: none;
+  color: #f3e2e4;
+  font-size: 1rem;
+}
+
+.link:visited {
+  text-decoration: none;
+  color: #f3e2e4;
+  border-top: #f3e2e4;
+  border-top-style: solid;
+}
+
+.link:hover {
+  text-decoration: none;
+  color: #f3e2e4;
+}
+
+.link:active {
+  text-decoration: none;
+  color: #f3e2e4;
+  border-top: #f3e2e4;
+  border-top-style: solid;
+}
+
+.current-link {
+  border-top: #f3e2e4;
+  border-top-style: solid;
+  margin-top: 0.70%;
+  font-weight: bold;
+}
+
+.current-link:link {
+  text-decoration: none;
+  color: #f3e2e4;
+  font-size: 1rem;
+}
+
+.current-link:visited {
+  text-decoration: none;
+  color: #f3e2e4;
+  border-top: #f3e2e4;
+  border-top-style: solid;
+}
+
+.current-link:hover {
+  text-decoration: none;
+  color: #f3e2e4;
+}
+
+.current-link:active {
+  text-decoration: none;
+  color: #f3e2e4;
+  border-top: #f3e2e4;
+  border-top-style: solid;
+}
