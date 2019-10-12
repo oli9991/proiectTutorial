@@ -42,7 +42,6 @@ class Menu extends React.Component {
             default:
                 break
         }
-        // console.log('token', localStorage.getItem('token'));
         if (localStorage.getItem('token')) {
             this.props.login();
         }
@@ -50,7 +49,7 @@ class Menu extends React.Component {
     render() {
         if (!localStorage.getItem('token')) {
             return (
-                <Redirect to='/login'></Redirect>
+                <Redirect to='/'></Redirect>
             )
         } else {
             return (

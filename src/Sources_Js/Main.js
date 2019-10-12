@@ -31,9 +31,6 @@ class Dashboard extends React.Component {
         this.setState({ expanded: !this.state.expanded });
     }
     render() {
-        if (localStorage.getItem('token')) {
-            this.props.history.push('/dashboard');
-        }
         return (
             <div className='container-main'>
                 <div className='box-main'>
@@ -80,7 +77,9 @@ class Dashboard extends React.Component {
                             <h1>POST IT. </h1>
                             <h1>HEART IT. </h1>
                             <h1>SAVE IT. </h1>
-                            <Link to='/login' className="link-login">LOGIN</Link>
+                            <Link to='/login' className="link-login">
+                            <h1>LOGIN</h1>
+                            </Link>
                         </div>
                     </div>
                 </div>
