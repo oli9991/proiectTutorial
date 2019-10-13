@@ -7,7 +7,7 @@ class Menu extends React.Component {
         super(props);
         this.state = {
             dashboardPage: false,
-            fasvPage: false,
+            favsPage: false,
             userspostsPage: false,
         }
         console.log("props", this.props);
@@ -18,24 +18,24 @@ class Menu extends React.Component {
     }
     UNSAFE_componentWillMount() {
         switch (this.props.page) {
-            case "dashboardPage":
+            case "Dashboard":
                 this.setState({
                     dashboardPage: true,
-                    fasvPage: false,
+                    favsPage: false,
                     userspostsPage: false,
                 })
                 break
-            case "favsPage":
+            case "Favorites":
                 this.setState({
                     dashboardPage: false,
-                    fasvPage: true,
+                    favsPage: true,
                     userspostsPage: false,
                 })
                 break
-            case "usersPostsPage":
+            case "Your Photos":
                 this.setState({
                     dashboardPage: false,
-                    fasvPage: false,
+                    favsPage: false,
                     userspostsPage: true,
                 })
                 break
@@ -54,9 +54,9 @@ class Menu extends React.Component {
         } else {
             return (
                 <div className='menu-logged'>
-                    <Link to='/dashboard' className={(this.state.dashboardPage) ? 'current-link' : 'link'}>ALL PHOTOS</Link>
-                    <Link to='/favorites' className={(this.state.fasvPage) ? 'current-link' : 'link'} >YOUR FAVS</Link>
-                    <Link to='/yourposts' className={(this.state.userspostsPage) ? 'current-link' : 'link'} >YOUR PHOTOS</Link>
+                    <Link to='/dashboard' className={(this.state.dashboardPage === true) ? 'current-link' : 'link'}>ALL PHOTOS</Link>
+                    <Link to='/favorites' className={(this.state.favsPage === true) ? 'current-link' : 'link'} >YOUR FAVS</Link>
+                    <Link to='/yourposts' className={(this.state.userspostsPage === true) ? 'current-link' : 'link'} >YOUR PHOTOS</Link>
                     <Link onClick={() => this.handleLogout()} to='/' className="link">LOGOUT</Link>
                 </div>
             );

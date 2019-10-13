@@ -36,7 +36,14 @@ class Dashboard extends React.Component {
                 <div className='box-main'>
                     <Link to='/'> < FaHeart color="#fb8d98" size={45} style={{ marginLeft: '5%' }}></FaHeart></Link>
                     <div className="content-main">
-                        <div style={{ display: 'flex', width: '30%', flexDirection: 'column', marginLeft: '5%', marginTop: '2%', overflow: 'auto' }}>
+                        <div style={{
+                            display: 'flex',
+                            width: '30%',
+                            flexDirection: 'column',
+                            marginLeft: '5%',
+                            marginTop: '2%',
+                            overflow: 'auto'
+                        }}>
                             <Card>
                                 <CardHeader
                                     style={{ fontSize: 'small', }}
@@ -67,9 +74,7 @@ class Dashboard extends React.Component {
                             style={{
                                 display: 'flex',
                                 textAlign: 'center',
-                                alignItems: 'center',
                                 marginLeft: '25%',
-                                fontFamily: 'Frakfur',
                                 flexDirection: 'column',
                                 justifyContent: 'center',
                                 color: '#553D67'
@@ -78,7 +83,7 @@ class Dashboard extends React.Component {
                             <h1>HEART IT. </h1>
                             <h1>SAVE IT. </h1>
                             <Link to='/login' className="link-login">
-                            <h1>LOGIN</h1>
+                                <h1>LOGIN</h1>
                             </Link>
                         </div>
                     </div>

@@ -9,9 +9,6 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 class MyCard extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            photo: this.props.photo
-        }
     }
     render() {
         return (
@@ -20,8 +17,6 @@ class MyCard extends React.Component {
                     display: 'display',
                     width: '20%',
                     marginBottom: '1%',
-                    height: '45%',
-
                 }}>
                 <Card
                     style={{
@@ -41,7 +36,7 @@ class MyCard extends React.Component {
                             width: '95%',
                         }}>
                         <img
-                            src={`data:image/jpeg;base64,${this.state.photo.poza}`}
+                            src={`data:image/jpeg;base64,${this.props.photo.poza}`}
                             style={{ objectFit: 'scale-down', height: '100%', width: "100%" }}
                             alt='img'>
                         </img>
@@ -49,15 +44,20 @@ class MyCard extends React.Component {
                     <CardActions disableSpacing style={{ display: 'flex', height: '10%' }}>
                         <IconButton
                             aria-label="add to favorites"
-                            onClick={() => this.props.likePhoto(this.state.photo.id, this.state.photo)}
+                            onClick={() => this.props.likePhoto(this.props.photo)}
                             className="icon"
                         >
-                            {(this.state.photo.likeFromMe === "1") ?
+                            {(this.props.page === 'Favorites') ?
                                 <FavoriteIcon color='secondary' /> :
-                                <FavoriteIcon />
+                                (this.props.photo.likeFromMe === "1") ?
+                                    <FavoriteIcon color='secondary' /> :
+                                    <FavoriteIcon />
                             }
                         </IconButton>
-                        <p>{(this.state.photo.likes === 1) ? `${this.state.photo.likes} heart` : `${this.state.photo.likes} hearts`}</p>
+                        <p>
+                            {(this.props.photo.likes === 1) ?
+                                `${this.props.photo.likes} heart` : `${this.props.photo.likes} hearts`}
+                        </p>
                     </CardActions>
                 </Card>
             </div>
