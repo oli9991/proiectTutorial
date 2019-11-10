@@ -10,6 +10,7 @@ class MyCard extends React.Component {
     constructor(props) {
         super(props);
     }
+
     render() {
         return (
             <div
@@ -36,8 +37,11 @@ class MyCard extends React.Component {
                             width: '95%',
                         }}>
                         <img
+                        // primesc date de pe server in format b64 si trebuie sa formez imaginea originala
                             src={`data:image/jpeg;base64,${this.props.photo.poza}`}
+                            // objectFit ajuta la asezarea unei poze intr-un div (sa se vada toata, sa fie marita, etc)
                             style={{ objectFit: 'scale-down', height: '100%', width: "100%" }}
+                            // fiecare imagine trebuie sa aiba alt
                             alt='img'>
                         </img>
                     </CardContent>
@@ -47,6 +51,10 @@ class MyCard extends React.Component {
                             onClick={() => this.props.likePhoto(this.props.photo)}
                             className="icon"
                         >
+                            {/* rendare conditionala in rendare conditionala */}
+                            {/* REMINDER
+                                rendarea conditionala este un inline IF din C/C++ (if ... else if)
+                             */}
                             {(this.props.page === 'Favorites') ?
                                 <FavoriteIcon color='secondary' /> :
                                 (this.props.photo.likeFromMe === "1") ?
@@ -55,6 +63,7 @@ class MyCard extends React.Component {
                             }
                         </IconButton>
                         <p>
+                            {/* daca poza mea are un like atunci o sa zic la singular */}
                             {(this.props.photo.likes === 1) ?
                                 `${this.props.photo.likes} heart` : `${this.props.photo.likes} hearts`}
                         </p>

@@ -13,23 +13,21 @@ class Dashboard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            expanded: false,
             isHeartit: false,
             hearts: 0,
         }
-        this.handleExpandClick = this.handleExpandClick.bind(this);
         this.changeHeart = this.changeHeart.bind(this);
     }
     changeHeart() {
+        // cand am inima rosie => am 1 like (sau inimioare in cazul asta)
+        // cand am inima gri => 0 likes
         if (this.state.isHeartit === true) {
             this.setState({ hearts: 0, isHeartit: false });
         } else {
             this.setState({ hearts: 1, isHeartit: true });
         }
     }
-    handleExpandClick() {
-        this.setState({ expanded: !this.state.expanded });
-    }
+
     render() {
         return (
             <div className='container-main'>
@@ -39,11 +37,12 @@ class Dashboard extends React.Component {
                         <div style={{
                             display: 'flex',
                             width: '30%',
-                            flexDirection: 'column',
+                            flexDirection: 'column', 
                             marginLeft: '5%',
                             marginTop: '2%',
                             overflow: 'auto'
                         }}>
+                            {/* Card, CardHeader, CardContent, CardAction din material-ul */}
                             <Card>
                                 <CardHeader
                                     style={{ fontSize: 'small', }}
@@ -52,6 +51,7 @@ class Dashboard extends React.Component {
                                 />
                                 <CardContent
                                     style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                        {/* cum se afiseaza o imagine in react (un mod) */}
                                     <img src={require('../juice.png')} alt='img' ></img>
                                 </CardContent>
                                 <CardActions disableSpacing>
@@ -82,6 +82,7 @@ class Dashboard extends React.Component {
                             <h1>POST IT. </h1>
                             <h1>HEART IT. </h1>
                             <h1>SAVE IT. </h1>
+                            {/* link catre pagina de login */}
                             <Link to='/login' className="link-login">
                                 <h1>LOGIN</h1>
                             </Link>

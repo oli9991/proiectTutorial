@@ -1,11 +1,9 @@
 import React from 'react';
 import '../Sources_CSS/Page.css';
 import Menu from './Menu';
-import ReactLoading from 'react-loading';
 import MyCard from './MyCard'
 import UploadPhotoForm from './UploadPhotoForm';
 import { ToastsContainer, ToastsStore } from 'react-toasts';
-import Button from '@material-ui/core/Button';
 
 class Page extends React.Component {
     constructor(props) {
@@ -19,17 +17,19 @@ class Page extends React.Component {
             update: false,
             totalPhotos: 0,
         }
-        console.log(`props din ${props.page}`, this.props);
+
         this.loadPhotos = this.loadPhotos.bind(this);
         this.likePhoto = this.likePhoto.bind(this);
         this.uploadPhoto = this.uploadPhoto.bind(this);
         this.getNoPhotos = this.getNoPhotos.bind(this);
     }
     componentDidMount() {
+        // setez numele paginii in functie de ce am primit de la App.js (parinte)
         document.title = this.props.page;
-        this.getNoPhotos();
-        this.loadPhotos();
+        this.getNoPhotos();  //cer numarul de poze de la server
+        this.loadPhotos(); //incep sa trag pozele sa se afiseze o linie la inceput
     }
+    // request pentru numarul de poze
     async getNoPhotos() {
         try {
             const response = await fetch(`http://${window.IP}:${window.PORT}/api/poze/count`,
@@ -61,8 +61,10 @@ class Page extends React.Component {
                         "idPoza": photo.id
                     })
                 });
-            console.log('liked', this.state.photos);
 
+                // daca sunt pe pagina de favorite atunci ca sa nu dau refresh la pagina 
+                // sterg eu poza din array
+                // puteti sa cautati mai multe pe google (how to delete element from array javascript)
             if (this.props.page === 'Favorites') {
 
                 let photosCopy = [...this.state.photos];
@@ -80,6 +82,9 @@ class Page extends React.Component {
                 this.setState({ photos: photosCopy });
 
             } else {
+                // daca sunt pe Dashboard (toate pozele) sau pozele utilizatorului curent
+                // schimb numarul de like-uri si variabila care imi zice daca am dat like sau nu
+                // poza.likeFromMe = '1' inseamna am dat like
                 var arr = this.state.photos;
                 const index = arr.indexOf(photo);
 
@@ -114,6 +119,8 @@ class Page extends React.Component {
                 console.log(json.data.poze);
                 if (json.data.poze.length === 0) {
                     this.setState({
+                        // sa stiu cand sa ma opresc
+                        // la inceput am stop = false
                         stop: true
                     });
                 } else {
@@ -147,7 +154,8 @@ class Page extends React.Component {
                     });
 
                 const json = await response.json();
-                console.log('resp poza', json);
+                // fac eu un object JSON si il adaug in lista mea cu poze
+                // sa nu fac refresh la pagina
                 const new_photo = {
                     id : json.data.id,
                     poza : json.poza,
@@ -157,9 +165,10 @@ class Page extends React.Component {
                 };
                 const arr = this.state.photos;
                 this.setState({
-                    photos: arr.concat(new_photo)
+                    photos: arr.concat(new_photo) // cu concat adaug elementul la array (nu este singura metoda)
                 });
                 console.log(this.state.photos);
+                // afisez mesaj de succes
                 ToastsStore.success("Photo successfully posted");
                 this.forceUpdate();
             } catch (error) {
@@ -169,6 +178,8 @@ class Page extends React.Component {
         }
     }
     render() {
+        // daca mai am poze de incarcat atunci afisez
+        // cand nu am deloc poze pe server =>afisez no photos...
         var photos = <div>No photos... </div>;
         if (this.state.photos) {
             photos = this.state.photos.map((photo, i) => {
@@ -176,9 +187,7 @@ class Page extends React.Component {
                     <MyCard page={this.props.page} photo={photo} key={i} likePhoto={this.likePhoto}></MyCard>
                 );
             });
-        } else {
-            photos = <div>No photos... </div>;
-        }
+        } 
         return (
             <div className='container-page'>
                 <div className='box-page'>
@@ -189,6 +198,7 @@ class Page extends React.Component {
                         page={this.props.page}
                     ></Menu>
                     <div className="content-page">
+                        {/* daca sunt pe pagina cu pozele utilizatorului trebuie sa afisez si formularul de upload */}
                         {(this.props.page === 'Your Photos') ?
                             <UploadPhotoForm uploadPhoto={this.uploadPhoto} /> : <div></div>}
                         <div style={{
@@ -201,6 +211,7 @@ class Page extends React.Component {
                             marginBottom: '1%'
                         }}
                         >
+                            {/* afisez pozele */}
                             {photos}
                         </div>
                         <div
@@ -208,6 +219,8 @@ class Page extends React.Component {
                                 display: 'flex',
                                 justifyContent: 'center',
                             }}>
+                                {/* daca nu mai am poze de afisat atunci nu o sa am buton */}
+                                {/* daca mai am poze de afisat atunci pe buton o sa scrie Load photos */}
                             {(this.state.stop) ? <p></p> :
                                 <button
                                     onClick={() => {

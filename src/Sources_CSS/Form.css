@@ -1,4 +1,8 @@
 .container-form {
+    /* vh = viewport height */
+    /* indicat deoarece se schimb in functie de ecran */
+    /* exemplu : ecran de 13inch vs 15inch */
+    /* trebuie sa arate la fel */
     height: 100vh;
     width: 100%;
     background-image: linear-gradient(0deg, #e9defa 0%, #f3e2e4 100%);
@@ -43,7 +47,6 @@
     border-color: whitesmoke;
     background: #eae0f3;
     border-radius: 3%;
-    /* margin-top: 10vh; */
 }
 
 .text-field {

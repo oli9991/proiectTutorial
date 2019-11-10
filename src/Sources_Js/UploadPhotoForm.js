@@ -7,12 +7,17 @@ class UploadPhotoForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            imagePreviewUrl: '',
-            file: '',
+            imagePreviewUrl: '', //ca sa ne apara poza mica in dreapta (sa vedem la ce dam upload)
+            file: '', //aici o sa stocam imaginea inainte de upload
         }
         this.handleImageChange = this.handleImageChange.bind(this);
         this.restore = this.restore.bind(this);
     }
+
+    // functie de setState
+    // arata ciudat pentru ca e pentru un tip = file
+    // noi pana acum am avut string-uri
+
     handleImageChange(e) {
         e.preventDefault();
         let reader = new FileReader();
@@ -34,14 +39,14 @@ class UploadPhotoForm extends React.Component {
     }
 
     render() {
+        // luam imaginea la care vrem sa dam upload si mai jos o afisam (o sa pun ---imagine preview--- la linia corespunzatoare)
         let { imagePreviewUrl } = this.state;
         let $imagePreview = null;
         if (imagePreviewUrl) {
             $imagePreview = (
                 <img style={{
                     display: 'flex', maxWidth: '100%', maxheight: '100%'
-                }
-                } src={imagePreviewUrl} />);
+                }} alt='img' src={imagePreviewUrl} />);
         }
         return (
             <div style={{
@@ -56,9 +61,12 @@ class UploadPhotoForm extends React.Component {
                 <form
                     onSubmit={this._handleSubmit}
                     style={{ flexDirection: 'column', display: 'flex', marginRight: '5%' }}>
-                    <input type="file"
+                    <input type="file" //-->> tip = file dupa cum am spus mai sus
                         onChange={this.handleImageChange} />
                     <Button
+                    // la apasarea butonului vrem sa facem 2 actiuni : 
+                    // 1. trimitem request la server pentru upload
+                    // 2. stergem imaginea preview si fisierul ca sa stim ca s-a facut upload cu succes
                         onClick={() => {
                             this.props.uploadPhoto(this.state.imagePreviewUrl, this.state.file);
                             this.restore();
@@ -67,11 +75,13 @@ class UploadPhotoForm extends React.Component {
                         color="secondary"
                         style={{ marginTop: '5%', width: '100%' }}>
                         Upload photo
-                    <CloudUploadIcon />
+                        {/* iconul de upload de pe buton */}
+                    <CloudUploadIcon /> 
                     </Button>
                 </form>
                 <div style={{ height: '10%', width: '10%' }} >
-                    {$imagePreview}
+                    {/* ---imagine preview--- */}
+                    {$imagePreview} 
                 </div>
             </div>
         );

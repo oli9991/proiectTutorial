@@ -32,7 +32,6 @@
 }
 
 .link-login {
-    /* vertical-align: middle; */
     font-weight: bold;
 }
 
@@ -44,8 +43,6 @@
 .link-login:visited {
     text-decoration: none;
     color: #fb8d98;
-    /* border-top: #fb8d98; */
-    /* border-top-style: solid; */
 }
 
 .link-login:hover {
@@ -56,8 +53,6 @@
 .link-login:active {
     text-decoration: none;
     color: #fb8d98;
-    /* border-top: #fb8d98; */
-    /* border-top-style: solid; */
 }
 
 .icon:hover {
